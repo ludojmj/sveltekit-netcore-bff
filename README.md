@@ -113,13 +113,13 @@ npm run dev
 - Client consuming an embedded mocked API (http port 5173)
 
 ```bash
-VITE_API_URL="http://localhost:5173/mock/stuff"
+VITE_API_URL="http://localhost:5173/mock"
 ```
 
 - Client (http port 5173) consuming a distant API (https port 5001)
 
 ```bash
-VITE_API_URL="https://localhost:5001/api/stuff"
+VITE_API_URL="https://localhost:5001/api"
 ```
 
 - Client (https port 5001) and Server (https port 5001) together in the same Web app
@@ -129,7 +129,7 @@ VITE_API_URL="https://localhost:5001/api/stuff"
 ==> See: buildall.sh
 
 ```bash
-VITE_API_URL="https://localhost:5001/api/stuff"
+VITE_API_URL="https://localhost:5001/api"
 ```
 
 ##### Production mode (```<myfolder>/client/.env.production```)
@@ -137,7 +137,7 @@ VITE_API_URL="https://localhost:5001/api/stuff"
 - Client and Server together in the same Web app hosted on a real domain
 
 ```bash
-VITE_API_URL="https://www.example.com/api/stuff"
+VITE_API_URL="https://www.example.com/api"
 ```
 
 ==> Files inside "<myfolder>/client/build" directory must be copied into "<myfolder>/Server/wwwroot" directory
