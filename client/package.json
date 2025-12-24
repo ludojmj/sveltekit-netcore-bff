@@ -1,0 +1,29 @@
+{
+  "name": "sveltekit-netcore-identity",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "^3.0.10",
+    "axios": "^1.13.2",
+    "bulma": "^1.0.4",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-svelte": "^3.13.1",
+    "prettier": "^3.7.4",
+    "prettier-plugin-svelte": "^3.4.1",
+    "sass": "^1.97.1",
+    "svelte": "^5.46.1",
+    "vite": "^7.3.0"
+  },
+  "overrides": {
+    "cookie": "^1.1.1"
+  }
+}

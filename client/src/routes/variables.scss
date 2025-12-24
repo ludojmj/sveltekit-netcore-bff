@@ -1,0 +1,36 @@
+$primary: #cfe2ff;
+$info: #3c5172;
+$success: #99f7ab;
+$warning: #ffbd00;
+$danger: #f25757;
+$link: #000;
+
+@use "bulma/sass" with (
+  $primary: $primary,
+  $info: $info,
+  $success: $success,
+  $warning: $warning,
+  $danger: $danger,
+  $link: $link,
+  $title-color: $info);
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+input:valid,
+select:valid,
+textarea:valid {
+  border-color: $success;
+}
+
+input:invalid,
+select:invalid {
+  border-color: $danger;
+}
+
+.enable-line-break {
+  overflow-wrap: break-word;
+}

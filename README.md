@@ -1,7 +1,7 @@
 # All-In-One CRUD
 
 ```bash
-git clone https://github.com/ludojmj/sveltekit-netcore-identity.git
+git clone https://github.com/ludojmj/sveltekit-netcore-bff.git
 ```
 
 The aim of this project is to gather, in a single place, useful front and back ends development tools:

@@ -1,0 +1,12 @@
+{
+  "operation": "HTTP: GET api/userinfo == GetCurrentUser",
+  "appId": "interactive.public",
+  "id": "1",
+  "name": "Alice Smith",
+  "givenName": "Alice",
+  "familyName": "Smith",
+  "email": "AliceSmith@email.com",
+  "ip": "127.0.0.1",
+  "createdAt": null,
+  "updatedAt": null
+}
