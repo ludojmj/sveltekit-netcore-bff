@@ -7,7 +7,7 @@ namespace Server.Services;
 
 public class DistributedCacheTicketStore(IMemoryCache memoryCache) : ITicketStore
 {
-    public async Task<string> StoreAsync(AuthenticationTicket ticket)
+    public Task<string> StoreAsync(AuthenticationTicket ticket)
     {
         var key = Guid.NewGuid().ToString();
         var bytes = SerializeToBytes(ticket);
@@ -15,26 +15,24 @@ public class DistributedCacheTicketStore(IMemoryCache memoryCache) : ITicketStor
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(20)
         });
-        return key;
+        return Task.FromResult(key);
     }
 
-    public async Task RenewAsync(string key, AuthenticationTicket ticket)
+    public Task RenewAsync(string key, AuthenticationTicket ticket)
     {
         var bytes = SerializeToBytes(ticket);
         memoryCache.Set(key, bytes, new MemoryCacheEntryOptions
         {
             AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(20)
         });
+        return Task.CompletedTask;
     }
 
-    public async Task<AuthenticationTicket> RetrieveAsync(string key)
+    public Task<AuthenticationTicket> RetrieveAsync(string key)
     {
-        if (memoryCache.TryGetValue(key, out byte[] bytes))
-        {
-            return DeserializeFromBytes(bytes);
-        }
-
-        return null;
+        return memoryCache.TryGetValue(key, out byte[] bytes)
+            ? Task.FromResult(DeserializeFromBytes(bytes))
+            : Task.FromResult<AuthenticationTicket>(null);
     }
 
     public Task RemoveAsync(string key)

@@ -27,10 +27,10 @@ public class TestTraceEndpointFilter
 
     private static readonly Claim[] Identity =
     [
-        new Claim("client_id", "AppId"),
-        new Claim("sub", "Id"),
-        new Claim("name", "Name"),
-        new Claim("email", "Email")
+        new("client_id", "AppId"),
+        new("sub", "Id"),
+        new("name", "Name"),
+        new("email", "Email")
     ];
 
     [Fact]
