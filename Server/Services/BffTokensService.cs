@@ -6,7 +6,7 @@ namespace Server.Services;
 
 public class BffTokensService(IHttpContextAccessor ctxUserAuth) : IBffTokensService
 {
-    private const string CstMsg = "Token not found.";
+    private const string CstMsg = "Tokens not found.";
 
     public async Task<BffTokensModel> GetTokensAsync(string oidcScheme)
     {
