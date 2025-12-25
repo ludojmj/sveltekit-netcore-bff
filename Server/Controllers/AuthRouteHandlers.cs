@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
 using Server.Models;
@@ -15,9 +14,10 @@ public static class AuthRouteHandlers
     public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder group)
     {
         group.MapGet("logout", LogoutAsync)
+            .Produces<string>()
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest);
         group.MapGet("tokens", GetTokensAsync)
-            .Produces<TokensModel>()
+            .Produces<BffTokensModel>()
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest);
         group.MapGet("userinfo", GetUser)
             .Produces<UserModel>()
@@ -30,16 +30,16 @@ public static class AuthRouteHandlers
         return group;
     }
 
-    internal static async Task<IResult> LogoutAsync(HttpContext ctxUserAuth, ITokenService serviceToken)
+    internal static async Task<IResult> LogoutAsync(HttpContext ctxUserAuth, IBffTokensService service)
     {
-        TokensModel result = await serviceToken.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme);
-        await ctxUserAuth.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        BffTokensModel result = await service.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        await ctxUserAuth.SignOutAsync();
         return Results.Ok(result.IdToken);
     }
 
-    internal static async Task<IResult> GetTokensAsync(ITokenService serviceToken)
+    internal static async Task<IResult> GetTokensAsync(IBffTokensService service)
     {
-        TokensModel result = await serviceToken.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        BffTokensModel result = await service.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme);
         return Results.Ok(result);
     }
 

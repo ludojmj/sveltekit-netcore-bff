@@ -16,7 +16,7 @@ public static partial class OidcSecurityExtension
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.SlidingExpiration = false;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 options.SessionStore = authBuilder.Services.BuildServiceProvider().GetRequiredService<ITicketStore>();
             });
 }

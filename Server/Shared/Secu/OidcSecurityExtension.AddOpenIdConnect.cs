@@ -74,14 +74,6 @@ public static partial class OidcSecurityExtension
             }
 
             return Task.CompletedTask;
-        },
-        OnRedirectToIdentityProviderForSignOut = async ctx =>
-        {
-            var idToken = await ctx.HttpContext.GetTokenAsync("id_token");
-            if (!string.IsNullOrEmpty(idToken))
-            {
-                ctx.ProtocolMessage.IdTokenHint = idToken;
-            }
         }
     };
 }

@@ -4,11 +4,11 @@ using Server.Services.Interfaces;
 
 namespace Server.Services;
 
-public class TokenService(IHttpContextAccessor ctxUserAuth) : ITokenService
+public class BffTokensService(IHttpContextAccessor ctxUserAuth) : IBffTokensService
 {
     private const string CstMsg = "Token not found.";
 
-    public async Task<TokensModel> GetTokensAsync(string oidcScheme)
+    public async Task<BffTokensModel> GetTokensAsync(string oidcScheme)
     {
         if (ctxUserAuth.HttpContext == null)
         {
@@ -20,7 +20,7 @@ public class TokenService(IHttpContextAccessor ctxUserAuth) : ITokenService
         string idToken = authenticateResult.Properties?.GetTokenValue("id_token");
         if (authenticateResult.Succeeded && accessToken != null && idToken != null)
         {
-            return new TokensModel { AccessToken = accessToken, IdToken = idToken };
+            return new BffTokensModel { AccessToken = accessToken, IdToken = idToken };
         }
 
         throw new ArgumentException(CstMsg);

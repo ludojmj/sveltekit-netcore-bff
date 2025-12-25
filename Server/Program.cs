@@ -83,7 +83,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Register Services
 builder.Services.AddScoped<ITicketStore, DistributedCacheTicketStore>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IBffTokensService, BffTokensService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStuffService, StuffService>();
 
