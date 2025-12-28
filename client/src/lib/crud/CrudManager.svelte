@@ -48,7 +48,7 @@
 </script>
 
 {#if stuff.error}
-  <Error msgErr={stuff.error} hasReset={true} />
+  <Error msgErr={stuff.error} />
 {:else if $isLoading || !stuff.datumList}
   <Loading />
 {:else}

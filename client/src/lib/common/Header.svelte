@@ -13,7 +13,7 @@
   </div>
 
   <div class="column">
-    <h1 class="title">sveltekit-netcore-identity</h1>
+    <h1 class="title">sveltekit-netcore-bff</h1>
   </div>
 
   {#if $userInfo}

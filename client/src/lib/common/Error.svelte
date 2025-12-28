@@ -3,7 +3,7 @@
   import { userInfo } from '$lib/store.js';
   import { apiErrMsg } from '$lib/const.js';
   import { apiLogin } from '$lib/api.js';
-  export let msgErr, hasReset;
+  export let msgErr;
 
   $: if (msgErr === apiErrMsg.unauthorized) $userInfo = null;
 </script>
@@ -11,10 +11,6 @@
 {#if msgErr}
   <div class="notification is-danger is-light">
     {msgErr}
-    {#if hasReset}
-      <button class="delete" aria-label="close" on:click={apiLogin}></button>
-    {:else}
-      <a data-sveltekit-reload href="/" class="delete" aria-label="close"></a>
-    {/if}
+    <button class="delete" aria-label="close" on:click={apiLogin}></button>
   </div>
 {/if}

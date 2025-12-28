@@ -21,6 +21,7 @@ public static partial class OidcSecurityExtension
                 options.ResponseType = OpenIdConnectResponseType.Code;
                 options.ResponseMode = OpenIdConnectResponseMode.FormPost;
                 options.CallbackPath = new PathString(conf["Auth:CallbackPath"]);
+                options.SkipUnrecognizedRequests = true;
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.TokenValidationParameters.NameClaimType = "name";

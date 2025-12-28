@@ -4,9 +4,9 @@
 </script>
 
 <svelte:head>
-  <title>sveltekit-netcore-identity</title>
-  <meta name="description" content="sveltekit-netcore-identity" />
-  <meta name="keywords" content="SvelteKit .Net10 Identity" />
+  <title>sveltekit-netcore-bff</title>
+  <meta name="description" content="sveltekit-netcore-bff" />
+  <meta name="keywords" content="SvelteKit .Net10 Bff" />
 </svelte:head>
 
 <div class="container">

@@ -5,4 +5,4 @@
 </script>
 
 <Header />
-<Error msgErr="I got lost." hasReset={true} />
+<Error msgErr="I got lost." />

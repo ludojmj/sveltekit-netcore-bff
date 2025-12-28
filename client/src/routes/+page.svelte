@@ -19,7 +19,7 @@
 
 <Header />
 {#if apiUserInfo.error}
-  <Error msgErr={apiUserInfo.error} hasReset={true} />
+  <Error msgErr={apiUserInfo.error} />
 {:else}
   <CrudManager {initStuff} />
 {/if}

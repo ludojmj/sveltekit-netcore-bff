@@ -118,7 +118,6 @@ if (!env.IsProduction())
     });
 }
 
-
 app.MapRoutes();
 app.MapAuthRoutes();
 app.MapSwagger();

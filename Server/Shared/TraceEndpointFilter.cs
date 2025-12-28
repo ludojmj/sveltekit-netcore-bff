@@ -2,7 +2,7 @@ namespace Server.Shared;
 
 public class TraceEndpointFilter(ILogger<TraceEndpointFilter> logger) : IEndpointFilter
 {
-    public virtual async ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context,
+    public async ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context,
         EndpointFilterDelegate next)
     {
         var userInfo = context.HttpContext.GetCurrentUser();

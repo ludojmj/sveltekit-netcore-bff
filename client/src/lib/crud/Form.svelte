@@ -33,7 +33,7 @@
 </script>
 
 {#if stuffDatum?.error}
-  <Error msgErr={stuffDatum.error} hasReset={true} />
+  <Error msgErr={stuffDatum.error} />
 {:else if $isLoading || !stuffDatum}
   <Loading />
 {:else}
@@ -99,7 +99,12 @@
         <button class="button is-success" type="submit">Confirm</button>
       </footer>
 
-      <Error msgErr={error} hasReset={false} on:click={() => (error = '')} />
+      {#if error}
+        <div class="notification is-danger is-light">
+          {error}
+          <button class="delete" aria-label="close" on:click={() => (error = '')}></button>
+        </div>
+      {/if}
     </form>
   </section>
 {/if}

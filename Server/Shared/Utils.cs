@@ -52,8 +52,6 @@ public static class Utils
     [
         new("/health"),
         new("/favicon.ico"),
-        new("/signin-oidc"),
-        new ("/signout-callback-oidc"),
-        new ("/signout-oidc")
+        new("/signin-oidc")
     ];
 }
