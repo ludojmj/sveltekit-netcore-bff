@@ -2,7 +2,7 @@ namespace Server.Shared.Secu;
 
 public static class LocalMiddlewareExtension
 {
-    public static void UseLocalSpa(this IApplicationBuilder app, IHostEnvironment env, IConfiguration conf)
+    public static void UseLocalSpa(this IApplicationBuilder app, IHostEnvironment env)
     {
         app.Use(async (context, next) =>
         {
