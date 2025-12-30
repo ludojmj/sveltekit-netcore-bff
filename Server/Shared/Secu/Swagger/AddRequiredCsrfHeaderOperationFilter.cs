@@ -7,8 +7,7 @@ public class AddRequiredCsrfHeaderOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (context.ApiDescription == null
-            || context.ApiDescription.HttpMethod == null
+        if (context.ApiDescription?.HttpMethod == null
             || HttpMethods.IsGet(context.ApiDescription.HttpMethod))
         {
             return;
