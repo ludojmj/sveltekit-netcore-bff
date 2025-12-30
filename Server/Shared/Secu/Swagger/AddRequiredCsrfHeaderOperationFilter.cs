@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -8,7 +7,9 @@ public class AddRequiredCsrfHeaderOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (context.ApiDescription?.HttpMethod != WebRequestMethods.Http.Post)
+        if (context.ApiDescription == null
+            || context.ApiDescription.HttpMethod == null
+            || HttpMethods.IsGet(context.ApiDescription.HttpMethod))
         {
             return;
         }

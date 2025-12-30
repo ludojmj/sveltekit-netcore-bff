@@ -7,9 +7,9 @@ using Microsoft.Extensions.Hosting;
 using Server.Shared.Secu;
 using Xunit;
 
-namespace Server.UnitTest.Shared;
+namespace Server.UnitTest.Shared.Secu;
 
-public class TestSecurityMiddlewareExtension
+public class TestHeadersSecurityMiddlewareExtension
 {
     [Fact]
     public async Task SecurityMiddleware_Should_Return_ResponseHeaders()

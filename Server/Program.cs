@@ -100,7 +100,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseStoreAntiforgery();
 app.UseAntiforgery();
-app.UseLocalSpa(env, conf);
+app.UseLocalSpa(env);
 app.UseStaticFiles();
 app.MapFallbackToFile("/index.html");
 app.UseFileServer(new FileServerOptions

@@ -25,8 +25,6 @@ public static partial class OidcSecurityExtension
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.TokenValidationParameters.NameClaimType = "name";
-                options.UsePkce = true;
-                options.MapInboundClaims = true;
                 options.Events = GetOpenIdConnectEvents(conf["Auth:Authority"]);
                 foreach (var scope in conf.GetSection("Auth:Scopes").Get<string[]>())
                 {
