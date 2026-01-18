@@ -65,7 +65,7 @@ public class TestAuthRouteHandlers
         // Arrange
         const string accessToken = "accessToken";
         const string idToken = "idToken";
-        Task<BffTokensModel> tokensModel = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
+        var tokensModel = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
         var tokensService = Mock.Of<IBffTokensService>(x =>
             x.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme)
             == tokensModel
@@ -86,7 +86,7 @@ public class TestAuthRouteHandlers
     public async Task GetTokensAsync_ReturnsNull_WhenTokensAreNull()
     {
         // Arrange
-        Task<BffTokensModel> tokens = Task.FromResult<BffTokensModel>(null!);
+        var tokens = Task.FromResult<BffTokensModel>(null!);
         var tokensService = Mock.Of<IBffTokensService>(x =>
             x.GetTokensAsync(It.IsAny<string>()) == tokens
         );
@@ -105,7 +105,7 @@ public class TestAuthRouteHandlers
         // Arrange
         const string accessToken = "accessToken";
         const string idToken = "idToken";
-        Task<BffTokensModel> tokens = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
+        var tokens = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
         var tokensService = Mock.Of<IBffTokensService>(x =>
             x.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme)
             == tokens
@@ -137,7 +137,7 @@ public class TestAuthRouteHandlers
         // Arrange
         const string accessToken = "accessToken";
         const string idToken = "idToken";
-        Task<BffTokensModel> tokens = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
+        var tokens = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
         var tokensService = Mock.Of<IBffTokensService>(x =>
             x.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme)
             == tokens
