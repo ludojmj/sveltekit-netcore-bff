@@ -54,11 +54,7 @@ export const apiLogoutAsync = async () => {
     url: `${apiUri}/auth/logout`
   };
   const result = await axiosCallAsync(getMsg);
-  window.location =
-    'https://demo.duendesoftware.com/connect/endsession?id_token_hint=' +
-    result +
-    '&post_logout_redirect_uri=' +
-    encodeURIComponent(window.location.origin + '/');
+  window.location = result.logoutUrl;
 };
 
 export const apiSearchStuffAsync = async (search) => {

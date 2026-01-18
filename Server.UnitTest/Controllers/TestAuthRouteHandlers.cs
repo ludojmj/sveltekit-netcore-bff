@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Moq;
 using Server.Controllers;
 using Server.Models;
@@ -13,6 +16,27 @@ namespace Server.UnitTest.Controllers;
 
 public class TestAuthRouteHandlers
 {
+    const string CstEndSessionEndpoint = "https://logout.example.com/end-session";
+    private readonly IOptionsMonitor<OpenIdConnectOptions> _optionsMonitor;
+
+    public TestAuthRouteHandlers()
+    {
+        var conf = Task.FromResult(new OpenIdConnectConfiguration
+        {
+            EndSessionEndpoint = CstEndSessionEndpoint
+        });
+        var oidcOptions = new OpenIdConnectOptions
+        {
+            ConfigurationManager = Mock.Of<IConfigurationManager<OpenIdConnectConfiguration>>(x =>
+                x.GetConfigurationAsync(It.IsAny<CancellationToken>()) == conf
+            )
+        };
+
+        _optionsMonitor = Mock.Of<IOptionsMonitor<OpenIdConnectOptions>>(x =>
+            x.Get(It.IsAny<string>()) == oidcOptions
+        );
+    }
+
     [Fact]
     public void GetFullUserInfo_ReturnsUserInfo()
     {
@@ -76,7 +100,7 @@ public class TestAuthRouteHandlers
     }
 
     [Fact]
-    public async Task LogoutAsync_ReturnsOk_WithIdToken()
+    public async Task LogoutAsync_ReturnsOk_WithLogoutUrl()
     {
         // Arrange
         const string accessToken = "accessToken";
@@ -87,15 +111,15 @@ public class TestAuthRouteHandlers
             == tokens
         );
         var authService = Mock.Of<IAuthenticationService>();
+        var serviceProvider = Mock.Of<IServiceProvider>(x =>
+               x.GetService(typeof(IAuthenticationService)) == authService
+            && x.GetService(typeof(IOptionsMonitor<OpenIdConnectOptions>)) == _optionsMonitor
+        );
+        var uri = new Uri("https://somewhere.example.aaa:5050");
         var context = new DefaultHttpContext
         {
-            RequestServices = Mock.Of<IServiceProvider>(x =>
-                x.GetService(typeof(IAuthenticationService)) == authService
-            ),
-            Request =
-            {
-                Path = "/api/auth/logout"
-            }
+            RequestServices = serviceProvider,
+            Request = { Scheme = uri.Scheme, Host = new HostString(uri.Host, uri.Port), Path = "/api/auth/logout" }
         };
 
         // Act
@@ -104,6 +128,41 @@ public class TestAuthRouteHandlers
         // Assert
         var okResult = result as Ok<string>;
         Assert.NotNull(okResult);
-        Assert.Equal(idToken, okResult.Value);
+        Assert.Equal($"{CstEndSessionEndpoint}?id_token_hint={idToken}&post_logout_redirect_uri={uri}", okResult.Value);
+    }
+
+    [Fact]
+    public async Task LogoutAsync_WithNullConfigurationManager_ShouldThrow_InvalidOperationException()
+    {
+        // Arrange
+        const string accessToken = "accessToken";
+        const string idToken = "idToken";
+        Task<BffTokensModel> tokens = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
+        var tokensService = Mock.Of<IBffTokensService>(x =>
+            x.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme)
+            == tokens
+        );
+        var oidcOptions = new OpenIdConnectOptions
+        {
+            ConfigurationManager = null
+        };
+        var optionsMonitor = Mock.Of<IOptionsMonitor<OpenIdConnectOptions>>(x =>
+            x.Get(It.IsAny<string>()) == oidcOptions
+        );
+        var authService = Mock.Of<IAuthenticationService>();
+        var serviceProvider = Mock.Of<IServiceProvider>(x =>
+               x.GetService(typeof(IAuthenticationService)) == authService
+            && x.GetService(typeof(IOptionsMonitor<OpenIdConnectOptions>)) == optionsMonitor
+        );
+        var uri = new Uri("https://somewhere.example.aaa:5050");
+        var context = new DefaultHttpContext
+        {
+            RequestServices = serviceProvider,
+            Request = { Scheme = uri.Scheme, Host = new HostString(uri.Host, uri.Port), Path = "/api/auth/logout" }
+        };
+
+        // Act & Assert
+        var ex = await Assert.ThrowsAsync<InvalidOperationException>(() => AuthRouteHandlers.LogoutAsync(context, tokensService));
+        Assert.Equal("OIDC Configuration Manager is not available.", ex.Message);
     }
 }

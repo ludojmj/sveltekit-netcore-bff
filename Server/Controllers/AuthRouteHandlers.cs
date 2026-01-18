@@ -1,8 +1,11 @@
 using System.Security.Claims;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Server.Models;
 using Server.Services.Interfaces;
 using Server.Shared;
@@ -33,8 +36,18 @@ public static class AuthRouteHandlers
     internal static async Task<IResult> LogoutAsync(HttpContext ctxUserAuth, IBffTokensService service)
     {
         BffTokensModel result = await service.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme);
-        await ctxUserAuth.SignOutAsync();
-        return Results.Ok(result.IdToken);
+        await ctxUserAuth.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await ctxUserAuth.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        OpenIdConnectOptions oidcOptions = ctxUserAuth.RequestServices
+            .GetRequiredService<IOptionsMonitor<OpenIdConnectOptions>>()
+            .Get(OpenIdConnectDefaults.AuthenticationScheme);
+        var configurationManager = oidcOptions.ConfigurationManager
+            ?? throw new InvalidOperationException("OIDC Configuration Manager is not available.");
+        var discoveryDocument = await configurationManager.GetConfigurationAsync(ctxUserAuth.RequestAborted);
+        var endSessionEndpoint = discoveryDocument?.EndSessionEndpoint;
+        var whereAmI = ctxUserAuth.Request.GetUri().GetLeftPart(UriPartial.Authority);
+        var logoutUrl = $"{endSessionEndpoint}?id_token_hint={result.IdToken}&post_logout_redirect_uri={whereAmI}/";
+        return Results.Ok(logoutUrl);
     }
 
     internal static async Task<IResult> GetTokensAsync(IBffTokensService service)
