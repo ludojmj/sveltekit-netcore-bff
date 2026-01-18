@@ -65,10 +65,10 @@ public class TestAuthRouteHandlers
         // Arrange
         const string accessToken = "accessToken";
         const string idToken = "idToken";
-        var tokensModel = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
+        var tokens = Task.FromResult(new BffTokensModel { AccessToken = accessToken, IdToken = idToken });
         var tokensService = Mock.Of<IBffTokensService>(x =>
             x.GetTokensAsync(OpenIdConnectDefaults.AuthenticationScheme)
-            == tokensModel
+            == tokens
         );
 
         // Act
