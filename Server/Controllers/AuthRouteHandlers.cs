@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -45,7 +44,7 @@ public static class AuthRouteHandlers
             ?? throw new InvalidOperationException("OIDC Configuration Manager is not available.");
         var discoveryDocument = await configurationManager.GetConfigurationAsync(ctxUserAuth.RequestAborted);
         var endSessionEndpoint = discoveryDocument?.EndSessionEndpoint;
-        var whereAmI = ctxUserAuth.Request.GetUri().GetLeftPart(UriPartial.Authority);
+        var whereAmI = $"{ctxUserAuth.Request.Scheme}://{ctxUserAuth.Request.Host}";
         var logoutUrl = $"{endSessionEndpoint}?id_token_hint={result.IdToken}&post_logout_redirect_uri={whereAmI}/";
         return Results.Ok(logoutUrl);
     }
