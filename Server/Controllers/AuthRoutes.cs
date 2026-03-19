@@ -9,7 +9,7 @@ public static class AuthRoutes
 
     public static IEndpointRouteBuilder MapAuthRoutes(this IEndpointRouteBuilder group)
     {
-        group.MapGet("/favicon.ico", Results.NoContent).AllowAnonymous();
+        group.MapGet("/favicon.ico", Results.NoContent).AllowAnonymous().ExcludeFromDescription();
 
         var api = group.MapGroup("api")
             .RequireAuthorization()

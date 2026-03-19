@@ -65,7 +65,6 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Server", Version = "v1" });
     c.OperationFilter<AddRequiredCsrfHeaderOperationFilter>();
-    c.DocInclusionPredicate((_, apiDesc) => !apiDesc.RelativePath!.Equals("favicon.ico", StringComparison.Ordinal));
     c.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -92,17 +91,16 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseForwardedHeaders();
 app.UseExceptionHandler(_ => { });
+app.UseAuthCors(conf);
 app.UseHttpHeaders();
 app.UseHsts();
 app.UseHttpsRedirection();
-app.UseAuthCors(conf);
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStoreAntiforgery();
 app.UseAntiforgery();
 app.UseLocalSpa(env);
-app.UseStaticFiles();
-app.MapFallbackToFile("/index.html");
 if (!env.IsProduction())
 {
     app.UseSwaggerUI(c =>
@@ -116,6 +114,7 @@ app.MapRoutes();
 app.MapAuthRoutes();
 app.MapSwagger();
 app.MapHealthChecks("/health").AllowAnonymous();
+app.MapFallbackToFile("/index.html");
 
 await app.RunAsync();
 

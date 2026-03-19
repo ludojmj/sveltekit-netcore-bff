@@ -26,8 +26,8 @@ public class TestProgram
         var data = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
 
         // Assert
-        Assert.Equal(HttpStatusCode.Found, response.StatusCode);
-        Assert.Empty(data);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Contains("Keep", data);
     }
 
     [Fact]
