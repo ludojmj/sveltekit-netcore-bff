@@ -91,8 +91,8 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseForwardedHeaders();
-app.UseHttpHeaders();
 app.UseExceptionHandler(_ => { });
+app.UseHttpHeaders();
 app.UseHsts();
 app.UseHttpsRedirection();
 app.UseAuthCors(conf);
@@ -103,12 +103,6 @@ app.UseAntiforgery();
 app.UseLocalSpa(env);
 app.UseStaticFiles();
 app.MapFallbackToFile("/index.html");
-app.UseFileServer(new FileServerOptions
-{
-    EnableDirectoryBrowsing = false,
-    EnableDefaultFiles = true,
-    DefaultFilesOptions = { DefaultFileNames = { "index.html" } }
-});
 if (!env.IsProduction())
 {
     app.UseSwaggerUI(c =>
