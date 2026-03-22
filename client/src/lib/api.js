@@ -54,7 +54,7 @@ export const apiLogoutAsync = async () => {
     url: `${apiUri}/auth/logout`
   };
   const result = await axiosCallAsync(getMsg);
-  window.location = result.logoutUrl;
+  window.location = result;
 };
 
 export const apiSearchStuffAsync = async (search) => {
