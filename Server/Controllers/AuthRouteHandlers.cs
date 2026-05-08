@@ -13,23 +13,23 @@ namespace Server.Controllers;
 
 public static class AuthRouteHandlers
 {
-    public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder group)
+    public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder builder)
     {
-        group.MapGet("logout", LogoutAsync)
+        builder.MapGet("logout", LogoutAsync)
             .Produces<string>()
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest);
-        group.MapGet("tokens", GetTokensAsync)
+        builder.MapGet("tokens", GetTokensAsync)
             .Produces<BffTokensModel>()
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest);
-        group.MapGet("userinfo", GetUser)
+        builder.MapGet("userinfo", GetUser)
             .Produces<UserModel>()
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest);
-        group.MapGet("fullinfo", GetFullUserInfo)
+        builder.MapGet("fullinfo", GetFullUserInfo)
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest);
-        group.MapGet("csrf-token", GetCrsf)
+        builder.MapGet("csrf-token", GetCrsf)
             .Produces<string>()
             .Produces<ProblemDetails>(StatusCodes.Status400BadRequest);
-        return group;
+        return builder;
     }
 
     internal static async Task<IResult> LogoutAsync(HttpContext ctxUserAuth, IBffTokensService service)

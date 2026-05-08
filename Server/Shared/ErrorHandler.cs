@@ -39,7 +39,7 @@ public class ErrorHandler(ILogger<ErrorHandler> logger, IHostEnvironment env, IP
             {
                 Detail = showRealError ? msg : "An error occured. Please try again later.",
                 Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}",
-                Title = "An error occurred.",
+                Title = exception is BusinessException ? "Business Error" : "Technical Error",
                 Type = exception.GetType().Name,
             }
         };

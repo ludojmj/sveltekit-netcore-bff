@@ -24,7 +24,7 @@ public class TestOidcSecurityExtension
         { "ASPNETCORE_ENVIRONMENT", "Production" },
         { "Auth:Authority", "https://authority" },
         { "Auth:ClientId", "clientId" },
-        { "Auth:CallbackPath", "/authen/callback" },
+        { "Auth:CallbackPath", "/authentication/callback" },
         { "Auth:Audience", "audience" },
         { "Auth:Scopes:0", "openid" },
         { "Auth:Scopes:1", "profile" },
@@ -272,7 +272,7 @@ public class TestOidcSecurityExtension
         Assert.Equal(CookieSecurePolicy.Always, options.Cookie.SecurePolicy);
         Assert.Equal(SameSiteMode.None, options.Cookie.SameSite);
         Assert.Equal(TimeSpan.FromMinutes(5), options.ExpireTimeSpan);
-        Assert.False(options.SlidingExpiration);
+        Assert.True(options.SlidingExpiration);
         Assert.NotNull(options.SessionStore);
     }
 

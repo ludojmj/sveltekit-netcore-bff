@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
@@ -17,14 +18,16 @@ var env = builder.Environment;
 
 // Add services to the container.
 builder.WebHost.ConfigureKestrel(serverOptions => serverOptions.AddServerHeader = false);
+builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(conf.GetSection("Logging")));
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<ErrorHandler>();
 builder.Services.AddHealthChecks();
 builder.Services.AddCors();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddConfiguration(conf.GetSection("Logging")));
-builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddDataProtection()
+    .SetApplicationName("paiw")
+    .PersistKeysToFileSystem(new DirectoryInfo("./keys"));
 
 // Add DB
 builder.Services.AddDbContext<StuffDbContext>(options => options.UseSqlite(
@@ -35,7 +38,6 @@ builder.Services.AddDbContext<StuffDbContext>(options => options.UseSqlite(
 // Add Authent
 builder.AddAuthentication(conf);
 builder.AddAuthorization();
-builder.Services.AddAuthorization();
 builder.Services.AddAntiforgery();
 
 builder.Services.AddHsts(configureOptions =>
@@ -56,7 +58,6 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
     options.KnownIPNetworks.Clear();
     options.KnownProxies.Clear();
-    options.RequireHeaderSymmetry = false;
 });
 
 // Register the Swagger generator
@@ -81,7 +82,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Register Services
-builder.Services.AddScoped<ITicketStore, DistributedCacheTicketStore>();
+builder.Services.AddSingleton<ITicketStore, DistributedCacheTicketStore>();
 builder.Services.AddScoped<IBffTokensService, BffTokensService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IStuffService, StuffService>();

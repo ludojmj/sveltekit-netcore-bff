@@ -1,7 +1,7 @@
 // const.js
 export const apiErrMsg = {
   generic: 'An error occured. Try again later.',
-  unauthorized: 'Please login again.'
+  unauthorized: 'Please login.'
 };
 
 export const crud = {

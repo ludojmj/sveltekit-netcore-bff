@@ -7,16 +7,16 @@ public static class AuthRoutes
 {
     private const string CstAuth = "auth";
 
-    public static IEndpointRouteBuilder MapAuthRoutes(this IEndpointRouteBuilder group)
+    public static IEndpointRouteBuilder MapAuthRoutes(this IEndpointRouteBuilder builder)
     {
-        group.MapGet("/favicon.ico", Results.NoContent).AllowAnonymous().ExcludeFromDescription();
+        builder.MapGet("/favicon.ico", Results.NoContent).AllowAnonymous().ExcludeFromDescription();
 
-        var api = group.MapGroup("api")
+        var api = builder.MapGroup("api")
             .RequireAuthorization()
             .AddEndpointFilter<AntiforgeryAndBearerEndpointFilter>()
             .AddEndpointFilter<TraceEndpointFilter>();
 
         api.MapGroup(CstAuth).WithTags(CstAuth).MapAuthEndpoints();
-        return group;
+        return builder;
     }
 }

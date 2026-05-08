@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Server.UnitTest/Server.UnitTest.csproj" Type="1d4823b4-5433-4899-bd8e-00144683b0c7" />
+  <Project Path="Server/Server.csproj" Type="1d4823b4-5433-4899-bd8e-00144683b0c7" />
+</Solution>
