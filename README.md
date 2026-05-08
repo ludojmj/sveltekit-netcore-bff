@@ -13,13 +13,6 @@ The aim of this project is to gather, in a single place, useful front and back e
 
 ## Quick start (Development)
 
-Server
-
-```bash
-cd <myfolder>/Server
-dotnet run
-```
-
 Client
 
 ```bash
@@ -27,6 +20,17 @@ cd <myfolder>/client
 npm install
 npm run dev
 ```
+
+Server
+
+```bash
+cd <myfolder>/Server
+dotnet run
+```
+
+- Launch server url: https://localhost:5001
+
+==> After auth signin, bff will redirect to client url: http://localhost:5173/
 
 ---
 

@@ -46,12 +46,25 @@ public static partial class OidcSecurityExtension
             var jwtToken = tokenHandler.ReadJsonWebToken(authToken);
             if (jwtToken.Issuer != issuer)
             {
+                ctx.Fail("Invalid issuer");
                 return Task.CompletedTask;
             }
 
+            ClaimsIdentity identity = (ClaimsIdentity)ctx.Principal?.Identity;
+            if (identity == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            var existingClaims = identity.Claims
+                .Select(x => (x.Type, x.Value))
+                .ToHashSet();
             foreach (var claim in jwtToken.Claims)
             {
-                (ctx.Principal?.Identity as ClaimsIdentity)?.AddClaim(claim);
+                if (!existingClaims.Contains((claim.Type, claim.Value)))
+                {
+                    identity.AddClaim(claim);
+                }
             }
 
             return Task.CompletedTask;
