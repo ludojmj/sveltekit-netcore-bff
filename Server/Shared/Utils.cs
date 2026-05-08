@@ -18,11 +18,11 @@ public static class Utils
     public static IList<object> CleanTrace(this IEnumerable<object> argumentList)
     {
         List<object> list = [];
-        list.AddRange(argumentList.Where(arg => arg != null &&
-            (arg.GetType().Namespace?.StartsWith("Server", StringComparison.OrdinalIgnoreCase) == true
+        list.AddRange(argumentList.Where(arg =>
+            arg.GetType().Namespace?.StartsWith("Server", StringComparison.OrdinalIgnoreCase) == true
             || arg.GetType().IsPrimitive
             || arg.GetType().IsValueType
-            || arg is string)));
+            || arg is string));
         return list;
     }
 
