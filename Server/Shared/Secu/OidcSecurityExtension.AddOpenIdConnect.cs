@@ -50,18 +50,13 @@ public static partial class OidcSecurityExtension
                 return Task.CompletedTask;
             }
 
-            ClaimsIdentity identity = (ClaimsIdentity)ctx.Principal?.Identity;
-            if (identity == null)
-            {
-                return Task.CompletedTask;
-            }
-
-            var existingClaims = identity.Claims
+            var identity = (ClaimsIdentity)ctx.Principal?.Identity;
+            var existingClaims = identity?.Claims
                 .Select(x => (x.Type, x.Value))
                 .ToHashSet();
             foreach (var claim in jwtToken.Claims)
             {
-                if (!existingClaims.Contains((claim.Type, claim.Value)))
+                if (existingClaims?.Contains((claim.Type, claim.Value)) == false)
                 {
                     identity.AddClaim(claim);
                 }

@@ -8,8 +8,6 @@ public static class AntiforgeryMiddlewareExtension
     {
         app.Use(async (context, next) =>
         {
-            var antiforgery = context.RequestServices.GetRequiredService<IAntiforgery>();
-
             if (!HttpMethods.IsGet(context.Request.Method))
             {
                 await next(context);
@@ -19,6 +17,7 @@ public static class AntiforgeryMiddlewareExtension
             var cookieName = Utils.CstAntiforgeryToken;
             if (!context.Request.Cookies.ContainsKey(cookieName))
             {
+                var antiforgery = context.RequestServices.GetRequiredService<IAntiforgery>();
                 var tokens = antiforgery.GetAndStoreTokens(context);
                 context.Response.Cookies.Append(
                     cookieName,

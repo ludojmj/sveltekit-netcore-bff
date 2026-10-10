@@ -5,14 +5,15 @@ $warning: #ffbd00;
 $danger: #f25757;
 $link: #000;
 
-@use "bulma/sass" with (
+@use 'bulma/sass' with (
   $primary: $primary,
   $info: $info,
   $success: $success,
   $warning: $warning,
   $danger: $danger,
   $link: $link,
-  $title-color: $info);
+  $title-color: $info
+);
 
 .navbar {
   position: fixed;

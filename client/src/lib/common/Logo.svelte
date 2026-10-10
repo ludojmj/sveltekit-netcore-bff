@@ -1,6 +1,6 @@
 <script>
   // Logo.svelte
-  import logo from '$lib/images/logo.svg';
+  import logo from '#lib/assets/favicon.svg';
 </script>
 
 <img src={logo} alt="logo" />

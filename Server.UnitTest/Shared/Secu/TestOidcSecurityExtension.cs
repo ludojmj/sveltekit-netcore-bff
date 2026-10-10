@@ -29,7 +29,7 @@ public class TestOidcSecurityExtension
         { "Auth:Scopes:0", "openid" },
         { "Auth:Scopes:1", "profile" },
         { "Auth:Cors:0", "http://localhost:5173" },
-        { "Auth:Cors:1", "https://localhost:5001" }
+        { "Auth:Cors:1", "http://localhost:5002" }
     };
 
     private readonly IConfiguration _conf = new ConfigurationBuilder().AddInMemoryCollection(InMemorySettings).Build();
@@ -73,7 +73,11 @@ public class TestOidcSecurityExtension
             .Get("Bearer");
 
         Assert.Equal(InMemorySettings?["Auth:Authority"], options.Authority);
-        Assert.Equal(InMemorySettings?["Auth:Audience"], options.Audience);
+        Assert.True(options.TokenValidationParameters.ValidateIssuer);
+        Assert.False(options.TokenValidationParameters.ValidateAudience);
+        Assert.True(options.TokenValidationParameters.ValidateLifetime);
+        Assert.True(options.TokenValidationParameters.ValidateIssuerSigningKey);
+        Assert.Null(options.TokenValidationParameters.ValidAudiences);
         Assert.True(options.SaveToken);
         Assert.NotNull(options.TokenValidationParameters);
     }

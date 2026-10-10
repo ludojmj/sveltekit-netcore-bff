@@ -1,17 +1,21 @@
-// tools.js
+// lib/tools.js
+import { resolve } from '$app/paths';
 import { goto } from '$app/navigation';
-import { crud } from '$lib/const.js';
+import { crud } from '#lib/const.js';
 
+/** @param {HTMLElement} elt */
 export const setFocus = (elt) => {
   elt.focus();
 };
 
+/** @param {KeyboardEvent} event */
 export const handleEscape = (event) => {
   if (event.code == 'Escape') {
-    goto('/');
+    goto(resolve('/'));
   }
 };
 
+/** @param {string} title @param {Record<string, any>} item @param {Record<string, any>} initialItem */
 export const handleFormError = (title, item, initialItem) => {
   return title !== crud.READ && title !== crud.DELETE && JSON.stringify(item) === JSON.stringify(initialItem)
     ? 'No significant changes...'

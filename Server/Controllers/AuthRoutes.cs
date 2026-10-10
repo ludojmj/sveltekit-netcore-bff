@@ -9,8 +9,6 @@ public static class AuthRoutes
 
     public static IEndpointRouteBuilder MapAuthRoutes(this IEndpointRouteBuilder builder)
     {
-        builder.MapGet("/favicon.ico", Results.NoContent).AllowAnonymous().ExcludeFromDescription();
-
         var api = builder.MapGroup("api")
             .RequireAuthorization()
             .AddEndpointFilter<AntiforgeryAndBearerEndpointFilter>()

@@ -1,28 +1,23 @@
 <script>
   // FormWrapper.svelte
-  import { crud } from '$lib/const.js';
+  import { crud } from '#lib/const.js';
 
-  export let crudCmd;
+  let { crudCmd, children } = $props();
 
-  let localStyle;
-  switch (crudCmd) {
-    case crud.READ:
-      localStyle = 'is-info';
-      break;
-    case crud.UPDATE:
-      localStyle = 'is-warning';
-      break;
-    case crud.DELETE:
-      localStyle = 'is-danger';
-      break;
-    default:
-      localStyle = 'is-success';
-  }
+  let localStyle = $derived(
+    crudCmd === crud.READ
+      ? 'is-info'
+      : crudCmd === crud.UPDATE
+        ? 'is-warning'
+        : crudCmd === crud.DELETE
+          ? 'is-danger'
+          : 'is-success'
+  );
 </script>
 
 <section class="panel {localStyle}">
   <p class="panel-heading">
     {crudCmd}
   </p>
-  <slot />
+  {@render children()}
 </section>

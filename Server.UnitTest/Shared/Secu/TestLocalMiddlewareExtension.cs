@@ -24,13 +24,13 @@ public class TestLocalMiddlewareExtension
         // Arrange.
         var env = Mock.Of<IHostEnvironment>(x => x.EnvironmentName == "Development");
         var user = new ClaimsPrincipal(new ClaimsIdentity([new Claim("type", "value")], "TestAuth"));
-        var context = new DefaultHttpContext { User = user, Request = { Path = "/port5001/to/port5173", QueryString = new QueryString("?param=value") } };
+        var context = new DefaultHttpContext { User = user, Request = { Path = "/port5002/to/port5173", QueryString = new QueryString("?param=value") } };
 
         // Act
         await InvokeLocalSpaAsync(context, env);
 
         // Assert
-        Assert.Equal("http://localhost:5173/port5001/to/port5173?param=value", context.Response.Headers.Location);
+        Assert.Equal("http://localhost:5173/port5002/to/port5173?param=value", context.Response.Headers.Location);
     }
 
     [Fact]

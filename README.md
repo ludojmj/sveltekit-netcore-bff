@@ -28,7 +28,7 @@ cd <myfolder>/Server
 dotnet run
 ```
 
-- Launch server url: https://localhost:5001
+- Launch server url: http://localhost:5002
 
 ==> After auth signin, bff will redirect to client url: http://localhost:5173/
 
@@ -120,20 +120,20 @@ npm run dev
 VITE_API_URL="http://localhost:5173/mock"
 ```
 
-- Client (http port 5173) consuming a distant API (https port 5001)
+- Client (http port 5173) consuming a distant API (http port 5002)
 
 ```bash
-VITE_API_URL="https://localhost:5001/api"
+VITE_API_URL="http://localhost:5002/api"
 ```
 
-- Client (https port 5001) and Server (https port 5001) together in the same Web app
+- Client (http port 5002) and Server (http port 5002) together in the same Web app
 
 ==> Files inside "<myfolder>/client/build" directory must be copied into "<myfolder>/Server/wwwroot" directory
 
 ==> See: buildall.sh
 
 ```bash
-VITE_API_URL="https://localhost:5001/api"
+VITE_API_URL="http://localhost:5002/api"
 ```
 
 ##### Production mode (```<myfolder>/client/.env.production```)
@@ -208,7 +208,7 @@ VITE_API_URL="https://www.example.com/api"
 **When?**
 
 - Running the .NET Core server (dotnet run);
-- Connecting to: <https://localhost:5001/health>.
+- Connecting to: <http://localhost:5002/health>.
 
 **How to solve?**
 
@@ -220,7 +220,7 @@ VITE_API_URL="https://www.example.com/api"
 
 > Chrome/Chromium
 
-- ==> In the browser, click "Not secure" in front of the uri <https://localhost:5001/health>;
+- ==> In the browser, click "Not secure" in front of the uri <http://localhost:5002/health>;
 - ==> Click "Certificate is not valid";
 - ==> Click "Details" tab;
 - ==> Export the certificate as (for instance) "myLocalhostCert.crt";
