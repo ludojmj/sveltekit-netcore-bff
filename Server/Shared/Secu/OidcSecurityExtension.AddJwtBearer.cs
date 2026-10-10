@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Server.Shared.Secu;
 
@@ -12,6 +13,10 @@ public static partial class OidcSecurityExtension
             options =>
             {
                 options.Authority = conf["Auth:Authority"];
-                options.Audience = conf["Auth:Audience"];
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    ValidateIssuerSigningKey = true
+                };
             });
 }

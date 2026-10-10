@@ -1,4 +1,4 @@
-// const.js
+// lib/const.js
 export const apiErrMsg = {
   generic: 'An error occured. Try again later.',
   unauthorized: 'Please login.'

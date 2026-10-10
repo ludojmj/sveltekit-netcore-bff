@@ -13,11 +13,7 @@ services:
       context: .
       target: final
     ports:
-      - "5000:5000"
-      - "5001:5001"
+      - "5002:5002"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_HTTP_PORTS=5000
-      - ASPNETCORE_HTTPS_PORTS=5001
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=myP@ssW0rd
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_HTTP_PORTS=5002

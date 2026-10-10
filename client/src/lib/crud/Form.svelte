@@ -1,19 +1,22 @@
 <script>
   // CommonForm.svelte
+  import { resolve } from '$app/paths';
   import { onMount } from 'svelte';
-  import { page } from '$app/stores';
-  import { isLoading } from '$lib/store.js';
-  import { crud } from '$lib/const.js';
-  import { crudApiCallAsync, getItemAsync } from '$lib/api.js';
-  import { handleEscape, handleFormError, setFocus } from '$lib/tools.js';
-  import Error from '$lib/common/Error.svelte';
-  import Loading from '$lib/common/Loading.svelte';
+  import { page } from '$app/state';
+  import { isLoading } from '#lib/store.js';
+  import { crud } from '#lib/const.js';
+  import { crudApiCallAsync, getItemAsync } from '#lib/api.js';
+  import { handleEscape, handleFormError, setFocus } from '#lib/tools.js';
+  import Error from '#lib/common/Error.svelte';
+  import Loading from '#lib/common/Loading.svelte';
+  import Header from '#lib/common/Header.svelte';
 
-  export let crudTitle, disabled;
+  let { crudTitle, disabled } = $props();
 
-  const id = $page.params.id;
+  const id = page.params.id ?? '';
 
-  let stuffDatum = {};
+  /** @type {{ id?: string, error?: string, label?: string, description?: string, otherInfo?: string, user?: { givenName: string } }} */
+  let stuffDatum = $state({});
   let initialDatum = {};
   onMount(async () => {
     const itemObj = await getItemAsync(crudTitle, id);
@@ -21,7 +24,7 @@
     initialDatum = itemObj.initialItem;
   });
 
-  let error = '';
+  let error = $state('');
   const handleSubmitAsync = async () => {
     error = handleFormError(crudTitle, stuffDatum, initialDatum);
     if (error) {
@@ -37,6 +40,7 @@
 {:else if $isLoading || !stuffDatum}
   <Loading />
 {:else}
+  <Header />
   <section
     class="panel {(crudTitle === crud.CREATE && 'is-success') ||
       (crudTitle === crud.READ && 'is-info') ||
@@ -44,10 +48,10 @@
       (crudTitle === crud.DELETE && 'is-danger')}"
   >
     <p class="panel-heading">{crudTitle}</p>
-    <form class="box" on:submit|preventDefault={handleSubmitAsync}>
+    <form class="box" onsubmit={(event) => { event.preventDefault(); handleSubmitAsync(); }}>
       <label class="label" for="user">Owner:</label>
       <input
-        on:keyup|preventDefault={handleEscape}
+        onkeyup={(event) => { event.preventDefault(); handleEscape(event); }}
         class="input has-text-weight-bold"
         type="text"
         id="user"
@@ -59,7 +63,7 @@
 
       <label class="label" for="label">Label:</label>
       <input
-        on:keyup|preventDefault={handleEscape}
+        onkeyup={(event) => { event.preventDefault(); handleEscape(event); }}
         bind:value={stuffDatum.label}
         use:setFocus
         minlength="3"
@@ -74,7 +78,7 @@
 
       <label class="label" for="description">Description:</label>
       <input
-        on:keyup|preventDefault={handleEscape}
+        onkeyup={(event) => { event.preventDefault(); handleEscape(event); }}
         bind:value={stuffDatum.description}
         class="input"
         type="text"
@@ -85,7 +89,7 @@
 
       <label class="label" for="otherInfo">Other info:</label>
       <textarea
-        on:keyup|preventDefault={handleEscape}
+        onkeyup={(event) => { event.preventDefault(); handleEscape(event); }}
         bind:value={stuffDatum.otherInfo}
         class="textarea"
         rows="5"
@@ -95,14 +99,14 @@
       ></textarea>
 
       <footer>
-        <a href="/" class="button is-danger">Cancel</a>
+        <a href={resolve('/')} class="button is-danger">Cancel</a>
         <button class="button is-success" type="submit">Confirm</button>
       </footer>
 
       {#if error}
         <div class="notification is-danger is-light">
           {error}
-          <button class="delete" aria-label="close" on:click={() => (error = '')}></button>
+          <button class="delete" aria-label="close" onclick={() => (error = '')}></button>
         </div>
       {/if}
     </form>

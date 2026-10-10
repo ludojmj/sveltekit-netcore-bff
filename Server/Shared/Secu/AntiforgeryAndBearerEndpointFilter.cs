@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Server.Shared.Secu;
@@ -8,9 +9,8 @@ public class AntiforgeryAndBearerEndpointFilter(IAntiforgery antiforgery) : IEnd
     public async ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var httpContext = context.HttpContext;
-        string authHeader = httpContext.Request.Headers.Authorization.FirstOrDefault();
-        if (httpContext.User.Identity?.IsAuthenticated != true
-         || authHeader?.StartsWith(JwtBearerDefaults.AuthenticationScheme, StringComparison.Ordinal) == true)
+        var authenticateResult = await httpContext.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
+        if (authenticateResult.Succeeded)
         {
             return await next(context);
         }

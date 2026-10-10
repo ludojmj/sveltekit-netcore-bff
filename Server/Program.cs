@@ -47,12 +47,6 @@ builder.Services.AddHsts(configureOptions =>
     configureOptions.MaxAge = TimeSpan.FromDays(365);
 });
 
-builder.Services.AddHttpsRedirection(options =>
-{
-    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
-    options.HttpsPort = 443;
-});
-
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;

@@ -61,14 +61,14 @@ public class TestTraceEndpointFilter
 
         // Assert
         Mock.Get(_logger).Verify(x => x.Log(
-            It.Is<LogLevel>(l => l == LogLevel.Information),
+            LogLevel.Information,
             It.IsAny<EventId>(),
             It.Is<It.IsAnyType>((v, _) =>
-                v.ToString()!.Contains(userInfo)
-             && v.ToString()!.Contains("Request:")
-             && v.ToString()!.Contains("Response:")),
+                v!.ToString()!.Contains(userInfo)
+                && v!.ToString()!.Contains("Request:")
+                && v!.ToString()!.Contains("Response:")),
             It.IsAny<Exception>(),
-            It.IsAny<Func<It.IsAnyType, Exception, string>>()!),
-            Times.Once);
+            It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
+        Times.Once);
     }
 }
