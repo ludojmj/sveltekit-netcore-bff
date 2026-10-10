@@ -48,10 +48,19 @@
       (crudTitle === crud.DELETE && 'is-danger')}"
   >
     <p class="panel-heading">{crudTitle}</p>
-    <form class="box" onsubmit={(event) => { event.preventDefault(); handleSubmitAsync(); }}>
+    <form
+      class="box"
+      onsubmit={(event) => {
+        event.preventDefault();
+        handleSubmitAsync();
+      }}
+    >
       <label class="label" for="user">Owner:</label>
       <input
-        onkeyup={(event) => { event.preventDefault(); handleEscape(event); }}
+        onkeyup={(event) => {
+          event.preventDefault();
+          handleEscape(event);
+        }}
         class="input has-text-weight-bold"
         type="text"
         id="user"
@@ -63,7 +72,10 @@
 
       <label class="label" for="label">Label:</label>
       <input
-        onkeyup={(event) => { event.preventDefault(); handleEscape(event); }}
+        onkeyup={(event) => {
+          event.preventDefault();
+          handleEscape(event);
+        }}
         bind:value={stuffDatum.label}
         use:setFocus
         minlength="3"
@@ -78,7 +90,10 @@
 
       <label class="label" for="description">Description:</label>
       <input
-        onkeyup={(event) => { event.preventDefault(); handleEscape(event); }}
+        onkeyup={(event) => {
+          event.preventDefault();
+          handleEscape(event);
+        }}
         bind:value={stuffDatum.description}
         class="input"
         type="text"
@@ -89,14 +104,16 @@
 
       <label class="label" for="otherInfo">Other info:</label>
       <textarea
-        onkeyup={(event) => { event.preventDefault(); handleEscape(event); }}
+        onkeyup={(event) => {
+          event.preventDefault();
+          handleEscape(event);
+        }}
         bind:value={stuffDatum.otherInfo}
         class="textarea"
         rows="5"
         maxLength="399"
         placeholder="Other info"
-        {disabled}
-      ></textarea>
+        {disabled}></textarea>
 
       <footer>
         <a href={resolve('/')} class="button is-danger">Cancel</a>

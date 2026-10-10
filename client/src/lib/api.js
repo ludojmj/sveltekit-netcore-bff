@@ -99,7 +99,10 @@ export const apiGetStuffByIdAsync = async (id) => {
 export const apiCreateStuffAsync = async (input) => {
   const postMsg = {
     method: isMock ? 'get' : 'post',
-    headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getCsrfToken('RequestVerificationToken') },
+    headers: {
+      'Content-Type': 'application/json',
+      RequestVerificationToken: getCsrfToken('RequestVerificationToken')
+    },
     url: `${apiUri}/stuff${mock}`,
     data: input
   };
@@ -110,7 +113,10 @@ export const apiCreateStuffAsync = async (input) => {
 export const apiUpdateStuffAsync = async (id, input) => {
   const putMsg = {
     method: isMock ? 'get' : 'put',
-    headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getCsrfToken('RequestVerificationToken') },
+    headers: {
+      'Content-Type': 'application/json',
+      RequestVerificationToken: getCsrfToken('RequestVerificationToken')
+    },
     url: `${apiUri}/stuff/${id}${mock}`,
     data: input
   };
@@ -121,7 +127,10 @@ export const apiUpdateStuffAsync = async (id, input) => {
 export const apiDeleteStuffAsync = async (id) => {
   const deleteMsg = {
     method: isMock ? 'get' : 'delete',
-    headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getCsrfToken('RequestVerificationToken') },
+    headers: {
+      'Content-Type': 'application/json',
+      RequestVerificationToken: getCsrfToken('RequestVerificationToken')
+    },
     url: `${apiUri}/stuff/${id}${mock}`
   };
   return await axiosCallAsync(deleteMsg);

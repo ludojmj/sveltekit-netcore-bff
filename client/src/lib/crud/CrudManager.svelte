@@ -8,7 +8,7 @@
   import Error from '#lib/common/Error.svelte';
   import Loading from '#lib/common/Loading.svelte';
   import Header from '#lib/common/Header.svelte';
-  
+
   let { initStuff } = $props();
 
   let searchTerm = $state('');
@@ -61,7 +61,12 @@
   <Loading />
 {:else}
   <section class="box has-background-primary">
-    <form onsubmit={(event) => { event.preventDefault(); handleSearchAsync(); }}>
+    <form
+      onsubmit={(event) => {
+        event.preventDefault();
+        handleSearchAsync();
+      }}
+    >
       <div class="columns">
         <div class="column is-4">
           <div class="pagination">
@@ -70,7 +75,10 @@
                 <button
                   class="button is-info"
                   value="-"
-                  onclick={(event) => { event.preventDefault(); handlePageAsync(event); }}
+                  onclick={(event) => {
+                    event.preventDefault();
+                    handlePageAsync(event);
+                  }}
                   disabled={!stuff.page || stuff.page === 1}
                 >
                   &laquo;
@@ -85,7 +93,10 @@
                 <button
                   class="button is-info"
                   value="+"
-                  onclick={(event) => { event.preventDefault(); handlePageAsync(event); }}
+                  onclick={(event) => {
+                    event.preventDefault();
+                    handlePageAsync(event);
+                  }}
                   disabled={stuff.page === stuff.totalPages}
                 >
                   &raquo;
@@ -101,7 +112,10 @@
               <input
                 bind:value={searchTerm}
                 use:init
-                onkeyup={(event) => { event.preventDefault(); handleEscapeOrEnterAsync(event); }}
+                onkeyup={(event) => {
+                  event.preventDefault();
+                  handleEscapeOrEnterAsync(event);
+                }}
                 class="input"
                 type="search"
                 placeholder="Filter"

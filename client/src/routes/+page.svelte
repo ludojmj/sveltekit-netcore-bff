@@ -8,7 +8,9 @@
   import Error from '#lib/common/Error.svelte';
 
   let apiUserInfo = $state(/** @type {{ error?: string }} */ ({}));
-  let initStuff = $state(/** @type {{ error?: string, page?: number, totalPages?: number, datumList?: Array<{ id: string, label: string, description: string, createdAt?: string | null, updatedAt?: string | null, user: { id: string, givenName: string, familyName: string } }> }} */ ({}));
+  let initStuff = $state(
+    /** @type {{ error?: string, page?: number, totalPages?: number, datumList?: Array<{ id: string, label: string, description: string, createdAt?: string | null, updatedAt?: string | null, user: { id: string, givenName: string, familyName: string } }> }} */ ({})
+  );
   onMount(async () => {
     await unregisterServiceWorker();
     apiUserInfo = await apiGetUserInfoAsync();

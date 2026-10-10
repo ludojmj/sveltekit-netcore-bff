@@ -5,7 +5,11 @@
   let { stuffDatum, idx } = $props();
 </script>
 
-<div class="columns is-multiline is-tablet {idx % 2 ? 'has-background-white-ter' : 'has-background-grey-lighter'}">
+<div
+  class="columns is-multiline is-tablet {idx % 2
+    ? 'has-background-white-ter'
+    : 'has-background-grey-lighter'}"
+>
   <div class="column is-3 enable-line-break">{stuffDatum.label}</div>
 
   <div class="column is-3 enable-line-break">{stuffDatum.description}</div>
