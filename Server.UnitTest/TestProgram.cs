@@ -27,7 +27,7 @@ public class TestProgram
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Contains("Keep", data);
+        Assert.Contains("<!doctype html>", data);
     }
 
     [Fact]

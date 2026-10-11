@@ -52,6 +52,7 @@ dotnet run
 #### Overwrite database if needed (requires sqlite3)
 
 ```bash
+sudo apt install sqlite3
 cd <myfolder>
 sqlite3 Server/App_Data/stuff.db < Server/App_Data/create_tables.sql
 ```

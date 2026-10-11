@@ -27,11 +27,11 @@ dotnet test ../Server.UnitTest
 
 let "step++"
 printf "\n************************** $step/$STEPS : Building server...\n"
-dotnet build ../Server --configuration Release
+dotnet build ../Server -c Release
 
 let "step++"
 printf "\n************************** $step/$STEPS : Finalizing...\n"
 cd ..
 printf "\nDone.\n\n"
-# cd Server
-# dotnet bin/Release/net10.0/Server.dll
+cd Server
+dotnet bin/Release/net10.0/Server.dll --urls "http://localhost:5002"
