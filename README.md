@@ -66,6 +66,9 @@ cd <myfolder>
 dotnet new gitignore
 dotnet new webapi -n Server
 dotnet new xunit -n Server.UnitTest
+dotnet new sln -n Server --format slnx
+dotnet sln Server.slnx add Server/Server.csproj
+dotnet sln Server.slnx add Server.UnitTest/Server.UnitTest.csproj
 ```
 
 #### Generate the model from the database for the Web API server
