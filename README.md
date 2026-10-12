@@ -103,7 +103,7 @@ dotnet run
 
 ```bash
 cd <myfolder>
-npm create svelte@latest client
+npx sv create client
 ```
 
 #### Run the client App
